@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"sort"
+	"strings"
 	"time"
-	"bufio"
-	"os"
 )
 
 type Product struct {
@@ -29,34 +27,40 @@ func main() {
 			randomInt(100, 200),
 		}
 	}
-	fmt.Println("All products")
+
 	for _, product := range products {
 		fmt.Println(product)
 	}
-	productsSlice := products[:]
-	sort.Slice(productsSlice, func(i, j int) bool {
-		return products[i].Price > products[j].Price
-	})
-	fmt.Println("Top 5 price")
-	for i := 0; i < 5; i++ {
-		fmt.Println(productsSlice[i])
-	}
-	fmt.Println("--Đếm sản phẩm theo category----")
-	categoryCount := map[string]int{}
+
+	fmt.Println("------Tìm sản phẩm theo tên-------")
+	var nameProduct string
+	fmt.Print("Enter name of product: ")
+	fmt.Scan(&nameProduct)
 	for _, product := range products {
-		if _, ok := categoryCount[product.Category]; ok {
-			categoryCount[product.Category]++
-		} else {
-			categoryCount[product.Category] = 0
+		if strings.Contains(product.Name, nameProduct) {
+			fmt.Println(product)
 		}
 	}
-	for key, value := range categoryCount {
-		fmt.Println(key, value)
+
+	fmt.Println("------Tìm sản phẩm theo category-------")
+	var cat string
+	fmt.Print("Enter the category: ")
+	fmt.Scan(&cat)
+	for _, product := range products {
+		if strings.Compare(product.Category, cat) == 0 {
+			fmt.Println(product)
+		}
 	}
-	fmt.Println("------------------")
-	 
-}
-func returnName(name string,products ...Product) {
-	reader := bufio.NewReader(os.Stdin)
-	for 
+
+	fmt.Println("------Tìm sản phẩm theo giá-------")
+	var max, min int
+	fmt.Print("Enter max of price: ")
+	fmt.Scan(&max)
+	fmt.Print("Enter min of price: ")
+	fmt.Scan(&min)
+	for _, product := range products {
+		if product.Price >= min && product.Price <= max {
+			fmt.Println(product)
+		}
+	}
 }
